@@ -5,20 +5,21 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Embeddable;
-import javax.persistence.EntityListeners;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 import java.io.Serializable;
 
 @EntityListeners(AuditingEntityListener.class)
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Embeddable
-public class SubmissionId implements Serializable {
-    @ManyToOne
-    private Challenge challenge;
-
+public class CandidateId implements Serializable {
     @ManyToOne
     private User user;
+
+    @ManyToOne
+    private Acceleration acceleration;
+
+    @ManyToOne
+    private Company company;
 }

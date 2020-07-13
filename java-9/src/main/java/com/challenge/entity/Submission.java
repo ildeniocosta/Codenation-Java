@@ -1,27 +1,31 @@
 package com.challenge.entity;
 
-import javax.persistence.*;
-import java.util.Calendar;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
+
+@EntityListeners(AuditingEntityListener.class)
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Submission {
     @EmbeddedId
     private SubmissionId id;
 
-    @MapsId
-    @OneToMany
-    @JoinColumn(name="user_id", referencedColumnName="id")
-    private User userId;
-    @MapsId
-    @OneToMany
-    @JoinColumn(name="challenge_id", referencedColumnName="id")
-    private Challenge challengeId;
+    @Column
+    @NotNull
+    private Float score;
 
-
-
-
-    private Double score;
-    @Temporal(TemporalType.TIMESTAMP)
-    private Calendar createdAt;
-
+    @CreatedDate
+    private LocalDateTime createdAt;
 }

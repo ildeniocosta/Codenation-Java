@@ -2,36 +2,32 @@ package com.challenge.entity;
 
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+@EntityListeners(AuditingEntityListener.class)
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-@Table(name = "candidate")
-@Getter
-@Setter
 public class Candidate {
     @EmbeddedId
-    private UserAccelerationPk userAcceleratioPk;
+    private CandidateId id;
 
-    @MapsId("userId")
-    @ManyToOne
-    @JoinColumn(name="user_id", referencedColumnName="id")
-    private User user;
-
-    @MapsId("accelerationId")
-    @ManyToOne
-    @JoinColumn(name="acceleration_id", referencedColumnName="id")
-    private Acceleration acceleration;
-
-    @MapsId("companyId")
-    @ManyToOne
-    @JoinColumn(name="company_id", referencedColumnName="id")
-    private Company company;
-
+    @Column
+    @NotNull
     private Integer status;
-    @Column(name = "created_at")
+
+    @CreatedDate
     private LocalDateTime createdAt;
 }

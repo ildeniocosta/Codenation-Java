@@ -1,24 +1,41 @@
 package com.challenge.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
+@EntityListeners(AuditingEntityListener.class)
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 @Entity
-@Table(name = "company")
-@Setter
-@Getter
 public class Company {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
-    @Column(length = 100)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @NotNull
+    @Column
+    @Size(max = 100)
     private String name;
-    @Column(length = 50)
+
+    @NotNull
+    @Column
+    @Size(max = 50)
     private String slug;
-    private LocalDateTime creatAt;
 
+    @OneToMany(mappedBy = "id.company")
+    private List<Candidate> candidates;
 
+    @CreatedDate
+    @Column
+    private LocalDateTime createdAt;
 }

@@ -1,29 +1,44 @@
 package com.challenge.entity;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "challenge")
-@Setter
-@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class Challenge {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    @NotNull
+    @Size(max = 100)
     private String name;
-    @Column(length = 50)
+
+    @Column
+    @NotNull
+    @Size(max = 50)
     private String slug;
-    @Column(name = "created_at", length = 100)
-    private LocalDateTime createdAt;
-    @OneToMany
+
+    @OneToMany(mappedBy = "challenge")
+    private List<Acceleration> accelerations;
+
+    @OneToMany(mappedBy = "id.challenge")
     private List<Submission> submissions;
 
+    @CreatedDate
+    @Column
+    private LocalDateTime createdAt;
 
 }
