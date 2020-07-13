@@ -5,25 +5,24 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
 @Entity
-@Table(name = "challenge")
-@Setter
+@Table(name = "acceleration")
 @Getter
-public class Challenge {
+@Setter
+public class Acceleration {
+
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
+    @Column(length = 100)
     private String name;
     @Column(length = 50)
     private String slug;
-    @Column(name = "created_at", length = 100)
+    @Column(name = "created_at")
     private LocalDateTime createdAt;
-    @OneToMany
-    private List<Submission> submissions;
-
+    @ManyToOne
+    @JoinColumn(name = "challenge_id")
+    private Challenge challenge;
 
 }
